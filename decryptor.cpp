@@ -3,6 +3,9 @@
 //
 // Modified from Chromium, Copyright 2014 The Chromium Authors. All rights reserved.
 //
+// Build:
+// g++ decryptor.cpp -I/usr/local/include/nss -I/usr/local/include/nspr -lnspr4 -lnss3 -o decryptor
+//
 
 #include <iostream>
 #include <string>
@@ -145,6 +148,7 @@ std::string chrome_decrypt(const std::string& ciphertext,
         // PK11_CipherOp has a bug where it will do an invalid memory access before
         // the start of the input, so avoid calling it. (NSS bug 922780).
         std::cerr << "[-] NSS bug 922780" << std::endl;
+        std::cerr << "[-] Decryption failed" << std::endl;
         return "";
     }
     
@@ -153,15 +157,19 @@ std::string chrome_decrypt(const std::string& ciphertext,
 
 int main(int argc, const char * argv[])
 {
+    if (argc != 3) {
+        std::cout << "Usage: decryptor blob_hex chrome_master_key" << std::endl;
+        return 1;
+    }
     
     SECStatus rv;
     rv = NSS_NoDB_Init(".");
     if (rv != SECSuccess) {
         std::cerr << "[-] NSS initialization failed, err #" << PR_GetError() << std::endl;
-        return NULL;
+        return 1;
     }
     
-    std::cout << chrome_decrypt("blob_from_sqlite_database", "password_from_keychain") << std::endl;
+    std::cout << chrome_decrypt(argv[1], argv[2]) << std::endl;
     
     return 0;
 }
