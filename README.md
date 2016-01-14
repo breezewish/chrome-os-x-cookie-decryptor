@@ -22,7 +22,7 @@ g++ decryptor.cpp -I/usr/local/opt/nspr/include/nspr -I/usr/local/opt/nss/includ
 ## Usage
 
 ```bash
-decryptor blob_hex chrome_master_key
+decryptor encrypted_blob chrome_master_key
 ```
 
 ## Example
