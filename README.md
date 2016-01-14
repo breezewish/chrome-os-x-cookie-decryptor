@@ -16,7 +16,7 @@ brew install nss
 ## Build
 
 ```bash
-g++ decryptor.cpp -I/usr/local/include/nss -I/usr/local/include/nspr -lnspr4 -lnss3 -o decryptor
+g++ decryptor.cpp -I/usr/local/opt/nspr/include/nspr -I/usr/local/opt/nss/include/nss -L/usr/local/opt/nspr/lib -L/usr/local/opt/nss/lib -lnspr4 -lnss3 -o decryptor
 ```
 
 ## Usage
